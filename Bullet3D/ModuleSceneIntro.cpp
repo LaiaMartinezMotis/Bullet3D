@@ -21,8 +21,10 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	Cube c(50, 70, 50);
+	c.color.Set(0.50, 0.0,0.6,1.0);
 	c.SetPos(50, 0, 0);
-	App->physics->AddBody(c)->Push (0.0, 0.0, 0.0);
+	
+	App->physics->AddBody(c, 10000.0F)->Push (0.0, 0.0, 0.0);
 
 	c.Render();
 
@@ -43,7 +45,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	
+
 	p.Render();
+	
+	
 
 	return UPDATE_CONTINUE;
 }
