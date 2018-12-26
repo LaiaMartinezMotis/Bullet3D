@@ -4,8 +4,6 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define MAX_BUILDINGS 3
-
 struct PhysBody3D;
 struct PhysMotor3D;
 
@@ -21,15 +19,11 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
-public:
-	/*
-	PhysBody3D* pb_snake[MAX_SNAKE];
-	Sphere s_snake[MAX_SNAKE];
+	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
 
-	PhysBody3D* pb_snake2[MAX_SNAKE];
-	Sphere s_snake2[MAX_SNAKE];
-	*/
-	Cube buldings[MAX_BUILDINGS];
+public:
+	p2List<Cube> buildings;
+	p2List<PhysBody3D*> buildings_phys;
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;

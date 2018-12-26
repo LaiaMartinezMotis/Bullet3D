@@ -28,7 +28,7 @@ bool ModuleSceneIntro::Start()
 	c.color.Set(0.50, 0.0,0.6,1.0);
 	c.SetPos(50, 0, 0);*/
 
-	Cube limit_one(400,10,10);
+	/*Cube limit_one(400,10,10);
 	Cube limit_two(10, 10, 370);
 	Cube limit_three(10, 10, 370);
 	Cube limit_four(400, 10, 10);
@@ -54,7 +54,16 @@ bool ModuleSceneIntro::Start()
 	limit_two.Render();
 	limit_three.Render();
 	limit_four.Render();
-	block_one.Render();
+	block_one.Render();*/
+
+	CreateMap(-100, 0, 200, 200, 30, 30, 10);
+
+	p2List_item<Cube>* item = buildings.getFirst();
+	while (item != NULL)
+	{
+		item->data.Render();
+		item = item->next;
+	}
 
 	return ret;
 }
@@ -64,6 +73,7 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
+	buildings_phys.clear();
 	return true;
 }
 
@@ -83,5 +93,24 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+}
+
+void ModuleSceneIntro::CreateMap(int x, int z, int width, int height, int b_width, int b_height, int street)
+{
+	int building_row = (int)(width / (b_width + street));
+	int building_col = (int)(height / (b_height + street));
+	for (int col = 0; col < building_col; col++)
+	{
+		for (int row = 0; row < building_row; row++)
+		{
+			int b_x = row * (street + b_width);
+			int b_z = col * (street + b_height);
+			Cube c(b_width, 50, b_height);
+			buildings.add(c);
+			c.color.Set(0.50, 0.0, 0.6, 1.0);
+			c.SetPos(x + b_x, 0, z + b_z);
+			buildings_phys.add(App->physics->AddBody(c, 100000.00F));
+		}
+	}
 }
 

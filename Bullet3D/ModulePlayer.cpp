@@ -152,9 +152,10 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 	vec3 pos = vehicle->GetPos();
 	vec3 forwardvec = vehicle->GetForwardVector();
+	
+	/*App->camera->Position.Set(pos.x-forwardvec.x, 5+pos.y- forwardvec.y,pos.z- forwardvec.z);
+	App->camera->LookAt({ pos.x + vehicle->info.camera_offset.x, pos.y + vehicle->info.camera_offset.y,  pos.z + vehicle->info.camera_offset.z});*/
 
-	App->camera->Position.Set(pos.x-forwardvec.x, 5+pos.y- forwardvec.y,pos.z- forwardvec.z);
-	App->camera->LookAt({ (float)App->input->GetMouseX(), (float)App->input->GetMouseY(), (float)App->input->GetMouseZ() });
 
 
 	char title[80];
