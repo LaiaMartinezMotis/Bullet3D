@@ -26,6 +26,9 @@ bool ModulePlayer::Start()
 
 	car.aleron_size.Set(4, 1.75, 6);
 	car.aleron_offset.Set(0, 3.25, 0);
+
+	car.camera_reference.Set(0.5, 0.5, 0.5);
+	car.camera_offset.Set(0, 3, 10);
 	
 	car.mass = 500.0f;
 	car.suspensionStiffness = 15.88f;
@@ -149,7 +152,9 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 	vec3 pos = vehicle->GetPos();
 	vec3 forwardvec = vehicle->GetForwardVector();
+	
 	App->camera->Position.Set(pos.x-forwardvec.x, 5+pos.y- forwardvec.y,pos.z- forwardvec.z);
+	App->camera->LookAt({ (float)App->input->GetMouseX(), (float)App->input->GetMouseY(), (float)App->input->GetMouseZ() });
 
 
 
