@@ -4,7 +4,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define MAX_SNAKE 2
+#define MAX_BUILDINGS 3
 
 struct PhysBody3D;
 struct PhysMotor3D;
@@ -29,6 +29,7 @@ public:
 	PhysBody3D* pb_snake2[MAX_SNAKE];
 	Sphere s_snake2[MAX_SNAKE];
 	*/
+	Cube buldings[MAX_BUILDINGS];
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
