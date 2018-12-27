@@ -142,7 +142,7 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER;
+		acceleration = -MAX_ACCELERATION;
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
@@ -158,9 +158,11 @@ update_status ModulePlayer::Update(float dt)
 
 
 
-	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+	char title[180];
+
+	sprintf_s(title, "Speed: %.1f Km/h | Score: 000", vehicle->GetKmh());
 	App->window->SetTitle(title);
+	
 
 	return UPDATE_CONTINUE;
 }

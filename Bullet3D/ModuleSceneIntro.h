@@ -1,5 +1,6 @@
 #pragma once
 #include "Module.h"
+#include "p2List.h"
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
@@ -19,11 +20,19 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
+	void CreateLimits();
+
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
 
 public:
+
 	p2List<Cube> buildings;
+
 	p2List<PhysBody3D*> buildings_phys;
+
+	p2List<Cube> cars;
+	p2List<PhysBody3D*> cars_phys;
+
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;

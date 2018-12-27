@@ -19,7 +19,7 @@ public:
 	bool CleanUp();
 
 	void SetTitle(const char* title);
-
+	/*void SetScore(const char* score);*/
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;
