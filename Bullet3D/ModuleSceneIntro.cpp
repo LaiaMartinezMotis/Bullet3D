@@ -80,11 +80,15 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	
 	p2List_item<Cube>* item = buildings.getFirst();
+	p2List_item<PhysBody3D*>* item_b= buildings_phys.getFirst();
 	
-	while (item)
+	while (item && item_b)
 	{
-		item->data.color = Pink;
+		item_b->data->GetTransform(&item->data.transform);
+		item->data.color.Set(0,1,0,1);
+
 		item->data.Render();
+		item_b = item_b->next;
 		item = item->next;
 	}
 
