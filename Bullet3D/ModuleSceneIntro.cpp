@@ -86,6 +86,9 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Cube>* item_car = cars.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_car = cars_phys.getFirst();
 
+	p2List_item<Sphere>* item_rew = rewards.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_rew = rewards_phys.getFirst();
+
 	while (item_building && item_phy_b)
 	{
 		item_phy_b->data->GetTransform(&item_building->data.transform);
@@ -106,6 +109,15 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_car = item_car->next;
 	}
 	
+	//while (item_rew && item_phy_rew)
+	//{
+	//	item_phy_rew->data->GetTransform(&item_rew->data.transform);
+	//	/*item_rew->data.color.Set(0.99, 0.87, 0.54, 1);*/
+
+	//	item_rew->data.Render();
+	//	item_phy_rew = item_phy_rew->next;
+	//	item_rew = item_rew->next;
+	//}
 	p.Render();
 	
 	
@@ -115,6 +127,8 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+	
+	
 }
 
 void ModuleSceneIntro::CreateLimits()
@@ -154,16 +168,24 @@ void ModuleSceneIntro::CreateMap(int x, int z, int width, int height, int b_widt
 			int b_z = col * (street + b_height);
 
 			Cube c(b_width, 50, b_height);
-			Cube box(10, 1.75, 4);
+			Cube box(15, 3.75, 5);
+			Sphere r (2.0);
+			Cube block(10, 1.75, 4);
 			
 			buildings.add(c);
 			cars.add(box);
+			rewards.add(r);
+			wall.add(block);
 
 			c.SetPos(x + b_x, 0, z + b_z);
 			box.SetPos(x + b_x, 0, z + b_z);
+			r.SetPos(20 + x + b_x, 0, 30 + z + b_z);
+			block.SetPos(x + b_x, 0, 50 + z + b_z);
 
 			buildings_phys.add(App->physics->AddBody(c, 100000.00F));
 			cars_phys.add(App->physics->AddBody(box, 100000.00F));
+			rewards_phys.add(App->physics->AddBody(r, 100.00F));
+			wall_phys.add(App->physics->AddBody(block, 100.00F));
 		}
 	}
 }

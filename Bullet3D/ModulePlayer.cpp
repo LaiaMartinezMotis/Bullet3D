@@ -160,7 +160,7 @@ update_status ModulePlayer::Update(float dt)
 
 	char title[180];
 
-	sprintf_s(title, "Speed: %.1f Km/h | Score: 000", vehicle->GetKmh());
+	sprintf_s(title, "Speed: %.1f Km/h | Score: 000 | Timer: 000", vehicle->GetKmh(), vehicle->Score());
 	App->window->SetTitle(title);
 	
 

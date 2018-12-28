@@ -32,6 +32,12 @@ public:
 	p2List<Cube> cars;
 	p2List<PhysBody3D*> cars_phys;
 
+	p2List<Sphere> rewards;
+	p2List<PhysBody3D*> rewards_phys;
+
+	p2List<Cube> wall;
+	p2List<PhysBody3D*> wall_phys;
+
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
