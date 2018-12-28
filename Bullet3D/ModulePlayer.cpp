@@ -105,7 +105,7 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 12, 10);
+	vehicle->SetPos(170, 0, 0);
 	
 	return true;
 }
@@ -153,9 +153,9 @@ update_status ModulePlayer::Update(float dt)
 	vec3 pos = vehicle->GetPos();
 	vec3 forwardvec = vehicle->GetForwardVector();
 	
-	/*App->camera->Position.Set(pos.x-forwardvec.x, 5+pos.y- forwardvec.y,pos.z- forwardvec.z);
-	App->camera->LookAt({ pos.x + vehicle->info.camera_offset.x, pos.y + vehicle->info.camera_offset.y,  pos.z + vehicle->info.camera_offset.z});*/
-
+	App->camera->Position.Set(20+pos.x-forwardvec.x, 100+pos.y- forwardvec.y,pos.z- forwardvec.z);
+	/*App->camera->LookAt({ pos.x + vehicle->info.camera_offset.x, pos.y + vehicle->info.camera_offset.y,  pos.z + vehicle->info.camera_offset.z});
+*/
 
 
 	char title[180];

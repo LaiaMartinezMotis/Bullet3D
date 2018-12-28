@@ -27,7 +27,6 @@ public:
 public:
 
 	p2List<Cube> buildings;
-
 	p2List<PhysBody3D*> buildings_phys;
 
 	p2List<Cube> cars;

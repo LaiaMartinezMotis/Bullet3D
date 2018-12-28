@@ -56,7 +56,7 @@ bool ModuleSceneIntro::Start()
 	limit_four.Render();
 	block_one.Render();*/
 
-	CreateMap(-30, 0, 200, 200, 70, 40, 30);
+	CreateMap(-100, -100, 300, 300, 70, 40, 30);
 	CreateLimits();
 
 	
@@ -77,25 +77,35 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	Plane p(0, 1, 0, 0);
+	p.color = White;
 	p.axis = true;
 	
-	p2List_item<Cube>* item = buildings.getFirst();
-	p2List_item<PhysBody3D*>* item_b= buildings_phys.getFirst();
+	p2List_item<Cube>* item_building = buildings.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_b = buildings_phys.getFirst();
 	
-	while (item && item_b)
-	{
-		item_b->data->GetTransform(&item->data.transform);
-		item->data.color.Set(0,1,0,1);
+	p2List_item<Cube>* item_car = cars.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_car = cars_phys.getFirst();
 
-		item->data.Render();
-		item_b = item_b->next;
-		item = item->next;
+	while (item_building && item_phy_b)
+	{
+		item_phy_b->data->GetTransform(&item_building->data.transform);
+		item_building->data.color.Set(0.69, 0.69, 0.69,1);
+
+		item_building->data.Render();
+		item_phy_b = item_phy_b->next;
+		item_building = item_building->next;
 	}
 
+	while (item_car && item_phy_car)
+	{
+		item_phy_car->data->GetTransform(&item_car->data.transform);
+		item_car->data.color.Set(0.9, 0.31, 0.39, 1);
 
+		item_car->data.Render();
+		item_phy_car = item_phy_car->next;
+		item_car = item_car->next;
+	}
 	
-
-
 	p.Render();
 	
 	
@@ -124,6 +134,8 @@ void ModuleSceneIntro::CreateLimits()
 	App->physics->AddBody(limit_three, 100000.0F)->Push(0.0, 0.0, 0.0);
 	App->physics->AddBody(limit_four, 100000.0F)->Push(0.0, 0.0, 0.0);
 
+	
+
 	limit_one.Render();
 	limit_two.Render();
 	limit_three.Render();
@@ -140,15 +152,18 @@ void ModuleSceneIntro::CreateMap(int x, int z, int width, int height, int b_widt
 		{
 			int b_x = row * (street + b_width);
 			int b_z = col * (street + b_height);
+
 			Cube c(b_width, 50, b_height);
-			/*Cube cars(10,0,10);*/
-			buildings.add(c);
-			/*buildings.add(cars);*/
-			/*c.color.Set(1, 0, 0, 1);*/
-			c.SetPos(x + b_x, 0, z + b_z);
-			/*cars.SetPos(x, 0, z);*/
-			buildings_phys.add(App->physics->AddBody(c, 100000.00F));
+			Cube box(10, 1.75, 4);
 			
+			buildings.add(c);
+			cars.add(box);
+
+			c.SetPos(x + b_x, 0, z + b_z);
+			box.SetPos(x + b_x, 0, z + b_z);
+
+			buildings_phys.add(App->physics->AddBody(c, 100000.00F));
+			cars_phys.add(App->physics->AddBody(box, 100000.00F));
 		}
 	}
 }
