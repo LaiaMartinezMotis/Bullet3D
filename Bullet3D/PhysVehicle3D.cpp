@@ -42,15 +42,19 @@ void PhysVehicle3D::Render()
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
 	Cube aleron(info.aleron_size.x, info.aleron_size.y, info.aleron_size.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&aleron.transform);
-	Cube camera(info.camera_reference.x, info.camera_reference.y, info.camera_reference.z);
-	vehicle->getChassisWorldTransform().getOpenGLMatrix(&camera.transform);
+	left_light.size = { info.left_light.x, info.left_light.y, info.left_light.z };
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&left_light.transform);
+	right_light.size = { info.right_light.x, info.right_light.y, info.right_light.z };
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&right_light.transform);
 	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
 	btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
 	offset = offset.rotate(q.getAxis(), q.getAngle());
 	btVector3 aleron_offset(info.aleron_offset.x, info.aleron_offset.y, info.aleron_offset.z);
 	aleron_offset = aleron_offset.rotate(q.getAxis(), q.getAngle());
-	btVector3 camera_offset(info.camera_offset.x, info.camera_offset.y, info.camera_offset.z);
-	camera_offset = camera_offset.rotate(q.getAxis(), q.getAngle());
+	btVector3 left_light_offset(info.left_light_offset.x, info.left_light_offset.y, info.left_light_offset.z);
+	left_light_offset = left_light_offset.rotate(q.getAxis(), q.getAngle());
+	btVector3 right_light_offset(info.right_light_offset.x, info.right_light_offset.y, info.right_light_offset.z);
+	right_light_offset = right_light_offset.rotate(q.getAxis(), q.getAngle());
 
 	chassis.transform.M[12] += offset.getX();
 	chassis.transform.M[13] += offset.getY();
@@ -62,13 +66,18 @@ void PhysVehicle3D::Render()
 	aleron.transform.M[14] += aleron_offset.getZ();
 	aleron.color = Pink;
 
-	camera.transform.M[12] += camera_offset.getX();
-	camera.transform.M[13] += camera_offset.getY();
-	camera.transform.M[14] += camera_offset.getZ();
+	left_light.transform.M[12] += left_light_offset.getX();
+	left_light.transform.M[13] += left_light_offset.getY();
+	left_light.transform.M[14] += left_light_offset.getZ();
+
+	right_light.transform.M[12] += right_light_offset.getX();
+	right_light.transform.M[13] += right_light_offset.getY();
+	right_light.transform.M[14] += right_light_offset.getZ();
 
 	aleron.Render();
 	chassis.Render();
-	camera.Render();
+	left_light.Render();
+	right_light.Render();
 }
 
 // ----------------------------------------------------------------------------

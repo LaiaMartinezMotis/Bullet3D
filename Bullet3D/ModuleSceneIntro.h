@@ -15,6 +15,7 @@ public:
 	~ModuleSceneIntro();
 
 	bool Start();
+	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	bool CleanUp();
 
@@ -23,6 +24,8 @@ public:
 	void CreateLimits();
 
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
+
+	void CarLights();
 
 public:
 
@@ -50,4 +53,9 @@ public:
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
+
+	Timer timer_left;
+	Timer timer_right;
+	Timer limit_time_right;
+	Timer limit_time_left;
 };

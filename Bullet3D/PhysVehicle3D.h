@@ -2,6 +2,7 @@
 
 #include "PhysBody3D.h"
 #include "glmath.h"
+#include "Primitive.h"
 
 class btRaycastVehicle;
 struct PhysBody3D;
@@ -28,8 +29,10 @@ struct VehicleInfo
 	vec3 aleron_size;
 	vec3 aleron_offset;
 	vec3 chassis_offset;
-	vec3 camera_reference;
-	vec3 camera_offset;
+	vec3 left_light;
+	vec3 left_light_offset;
+	vec3 right_light;
+	vec3 right_light_offset;
 	float mass;
 	float suspensionStiffness; // default to 5.88 / 10.0 offroad / 50.0 sports car / 200.0 F1 car
 	float suspensionCompression; // default to 0.83
@@ -60,6 +63,10 @@ public:
 
 public:
 	float score;
+	bool left_light_turned = false;
+	bool right_light_turned = false;
 	VehicleInfo info;
+	Cube left_light;
+	Cube right_light;
 	btRaycastVehicle* vehicle;
 };

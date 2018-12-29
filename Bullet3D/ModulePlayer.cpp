@@ -4,6 +4,7 @@
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
+#include "ModuleSceneIntro.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
@@ -27,8 +28,11 @@ bool ModulePlayer::Start()
 	car.aleron_size.Set(4, 1.75, 6);
 	car.aleron_offset.Set(0, 3.25, 0);
 
-	car.camera_reference.Set(0.5, 0.5, 0.5);
-	car.camera_offset.Set(0, 3, 10);
+	car.left_light.Set(1.0, 0.5, 0.5);
+	car.left_light_offset.Set(1.55,2.25,-5);
+
+	car.right_light.Set(1.0, 0.5, 0.5);
+	car.right_light_offset.Set(-1.55, 2.25, -5);
 	
 	car.mass = 500.0f;
 	car.suspensionStiffness = 15.88f;
@@ -106,6 +110,8 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(170, 0, 0);
+
+	vehicle->collision_listeners.add(App->scene_intro);
 	
 	return true;
 }
@@ -153,9 +159,8 @@ update_status ModulePlayer::Update(float dt)
 	vec3 pos = vehicle->GetPos();
 	vec3 forwardvec = vehicle->GetForwardVector();
 	
-	App->camera->Position.Set(20+pos.x-forwardvec.x, 100+pos.y- forwardvec.y,pos.z- forwardvec.z);
-	/*App->camera->LookAt({ pos.x + vehicle->info.camera_offset.x, pos.y + vehicle->info.camera_offset.y,  pos.z + vehicle->info.camera_offset.z});
-*/
+	App->camera->Position.Set(pos.x-forwardvec.x, 5 + pos.y- forwardvec.y,pos.z- forwardvec.z - 20);
+	App->camera->LookAt({ pos.x, pos.y, pos.z});
 
 
 	char title[180];

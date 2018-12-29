@@ -3,6 +3,7 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "PhysVehicle3D.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -22,12 +23,10 @@ bool ModuleSceneIntro::Start()
 
 	//for (int i = 0; i < MAX_BUILDINGS; i++) {
 	//	buildings[i] = Cube((50, 70, 50);
-
 	//}
 	/*Cube c(50, 70, 50);
 	c.color.Set(0.50, 0.0,0.6,1.0);
 	c.SetPos(50, 0, 0);*/
-
 	/*Cube limit_one(400,10,10);
 	Cube limit_two(10, 10, 370);
 	Cube limit_three(10, 10, 370);
@@ -59,9 +58,24 @@ bool ModuleSceneIntro::Start()
 	CreateMap(-100, -100, 300, 300, 70, 40, 30);
 	CreateLimits();
 
-	
-
 	return ret;
+}
+
+update_status ModuleSceneIntro::PreUpdate(float dt)
+{
+	//Left light
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+	{
+		App->player->vehicle->left_light_turned = !App->player->vehicle->left_light_turned;
+		limit_time_left.Start();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+	{
+		App->player->vehicle->right_light_turned = !App->player->vehicle->right_light_turned;
+		limit_time_right.Start();
+	}
+	CarLights();
+	return UPDATE_CONTINUE;
 }
 
 // Load assets
@@ -120,14 +134,24 @@ update_status ModuleSceneIntro::Update(float dt)
 	//}
 	p.Render();
 	
-	
-
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	
+	LOG("OwO!");
+	if (body1 == App->player->vehicle)
+	{
+		p2List_item<PhysBody3D*>* item_phy_rew = rewards_phys.getFirst();
+		if (item_phy_rew)
+		{
+			if (body2 == item_phy_rew->data)
+			{
+				LOG("Hey!");
+			}
+			item_phy_rew = item_phy_rew->next;
+		}
+	}
 	
 }
 
@@ -147,8 +171,6 @@ void ModuleSceneIntro::CreateLimits()
 	App->physics->AddBody(limit_two, 100000.0F)->Push(0.0, 0.0, 0.0);
 	App->physics->AddBody(limit_three, 100000.0F)->Push(0.0, 0.0, 0.0);
 	App->physics->AddBody(limit_four, 100000.0F)->Push(0.0, 0.0, 0.0);
-
-	
 
 	limit_one.Render();
 	limit_two.Render();
@@ -188,5 +210,57 @@ void ModuleSceneIntro::CreateMap(int x, int z, int width, int height, int b_widt
 			wall_phys.add(App->physics->AddBody(block, 100.00F));
 		}
 	}
+}
+
+void ModuleSceneIntro::CarLights()
+{
+	//Left Right
+	if (App->player->vehicle->left_light_turned)
+	{
+		if (timer_left.Read() > 500)
+		{
+			App->player->vehicle->left_light.color.Set(1.0f, 1.0f, 1.0f, 1.0f);
+			if (timer_left.Read() > 1000)
+				timer_left.Start();
+		}
+		else
+		{
+			App->player->vehicle->left_light.color.Set(0.6f, 0.5f, 0.1f, 0.8f);
+		}
+	}
+	else
+	{
+		timer_left.Start();
+		App->player->vehicle->left_light.color.Set(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
+	if (App->player->vehicle->right_light_turned)
+	{
+		if (timer_right.Read() > 500)
+		{
+			App->player->vehicle->right_light.color.Set(1.0f, 1.0f, 1.0f, 1.0f);
+			if (timer_right.Read() > 1000)
+				timer_right.Start();
+		}
+		else
+		{
+			App->player->vehicle->right_light.color.Set(0.6f, 0.5f, 0.1f, 0.8f);
+		}
+	}
+	else
+	{
+		timer_right.Start();
+		App->player->vehicle->right_light.color.Set(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
+	if (limit_time_left.Read() > 5000)
+	{
+		App->player->vehicle->left_light_turned = false;
+	}
+	if (limit_time_right.Read() > 5000)
+	{
+		App->player->vehicle->right_light_turned = false;
+	}
+	
 }
 
