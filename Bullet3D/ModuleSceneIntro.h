@@ -24,7 +24,7 @@ public:
 	void CreateLimits();
 
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
-
+	void CreateWall(int x, int z, int width, int height);
 	void CarLights();
 
 public:

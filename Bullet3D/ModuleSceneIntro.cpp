@@ -55,8 +55,13 @@ bool ModuleSceneIntro::Start()
 	limit_four.Render();
 	block_one.Render();*/
 
-	CreateMap(-100, -100, 300, 300, 70, 40, 30);
+	//Create City
+	CreateMap(-100, -100, 300, 300, 40, 40, 30);
 	CreateLimits();
+
+	//Create Walls
+	CreateWall(-88, -76, 10, 28);
+	CreateWall(-70, -70, 28, 10);
 
 	return ret;
 }
@@ -191,30 +196,40 @@ void ModuleSceneIntro::CreateMap(int x, int z, int width, int height, int b_widt
 
 			Cube c(b_width, 50, b_height);
 			Cube box(15, 3.75, 5);
-			Sphere r (2.0);
+			//Sphere r (2.0);
 			Cube block(10, 1.75, 4);
 			
 			buildings.add(c);
 			cars.add(box);
-			rewards.add(r);
+			//rewards.add(r);
 			wall.add(block);
 
 			c.SetPos(x + b_x, 0, z + b_z);
 			box.SetPos(x + b_x, 0, z + b_z);
-			r.SetPos(20 + x + b_x, 0, 30 + z + b_z);
+			//r.SetPos(20 + x + b_x, 0, 30 + z + b_z);
 			block.SetPos(x + b_x, 0, 50 + z + b_z);
 
 			buildings_phys.add(App->physics->AddBody(c, 100000.00F));
 			cars_phys.add(App->physics->AddBody(box, 100000.00F));
-			rewards_phys.add(App->physics->AddBody(r, 100.00F));
+			//rewards_phys.add(App->physics->AddBody(r, 100.00F));
 			wall_phys.add(App->physics->AddBody(block, 100.00F));
 		}
 	}
 }
 
+void ModuleSceneIntro::CreateWall(int x, int z, int width, int height)
+{
+	Cube c(width, 50, height);
+	c.SetPos(x, 0, z);
+
+	buildings.add(c);
+	buildings_phys.add(App->physics->AddBody(c, 100000.00F));
+	c.Render();
+}
+
 void ModuleSceneIntro::CarLights()
 {
-	//Left Right
+	//Left Light
 	if (App->player->vehicle->left_light_turned)
 	{
 		if (timer_left.Read() > 500)
@@ -234,6 +249,7 @@ void ModuleSceneIntro::CarLights()
 		App->player->vehicle->left_light.color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
+	//Right Light
 	if (App->player->vehicle->right_light_turned)
 	{
 		if (timer_right.Read() > 500)
