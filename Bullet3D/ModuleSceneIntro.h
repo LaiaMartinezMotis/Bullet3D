@@ -60,7 +60,6 @@ public:
 	Timer limit_time_right;
 	Timer limit_time_left;
 
-	uint bso;
 	uint reward;
 
 	Timer game_timer;

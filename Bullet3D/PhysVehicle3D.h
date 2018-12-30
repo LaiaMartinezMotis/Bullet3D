@@ -64,7 +64,7 @@ public:
 	void Orientation(float rot_angle);
 
 public:
-	float score;
+	float score = 0;
 	bool left_light_turned = false;
 	bool right_light_turned = false;
 	VehicleInfo info;

@@ -24,7 +24,7 @@ bool ModuleSceneIntro::Start()
 
 
 	//Play BSO
-	bso = App->audio->PlayMusic("Drift/Tokyo_Drift.ogg");
+	App->audio->PlayMusic("Drift/Tokyo_Drift.ogg");
 	
 
 	//Create City
@@ -159,12 +159,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	if (body1 == App->player->vehicle)
 	{
+		LOG("owoo");
 		p2List_item<PhysBody3D*>* item_phy_rew = rewards_phys.getFirst();
 		if (item_phy_rew)
 		{
 			if (body2 == item_phy_rew->data)
 			{
-				LOG("Hwey");
+				LOG("Hey");
 			}
 			item_phy_rew = item_phy_rew->next;
 		}
