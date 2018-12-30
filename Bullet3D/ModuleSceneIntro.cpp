@@ -36,6 +36,7 @@ bool ModuleSceneIntro::Start()
 	CreateMap(-100, -100, 300, 300, 40, 40, 30);
 	CreateLimits();
 
+	CreateRightTriggers(80,-135);
 	//Borders
 	CreateWall(96, -150, 10, 70);
 	CreateWall(56, -150, 10, 70);
@@ -70,13 +71,15 @@ bool ModuleSceneIntro::Start()
 	CreateRewards(5, 5);
 	CreateRewards(-65, 105);
 
-	//CreateRewards(-90, 165);
+	CreateRewards(35, 75);
+	CreateRewards(5, 75);
+	CreateRewards(-25, 75);
 	CreateRewards(5, 165);
 	CreateRewards(75, 165);
 	CreateRewards(75, 75);
 
 	//Create Pendul
-	CreatePendul(5,125,30,10);
+	CreatePendul(5,125, 5, 25, 25, 1);
 	//Win condition
 	CreateWin();
 
@@ -136,6 +139,19 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Cube>* item_win = win.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_win = win_phys.getFirst();
 
+	p2List_item<Cube>* item_hammer = hammer_list.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_ham = hammer.getFirst();
+
+	p2List_item<Cube>* item_hinge = hinge_list.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_hin = hinge_phys.getFirst();
+
+	p2List_item<Cube>* item_right = right_triggers.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_right = right_triggers_phys.getFirst();
+
+	p2List_item<Cube>* item_left = left_triggers.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_left = left_triggers_phys.getFirst();
+
+
 	while (item_building && item_phy_b)
 	{
 		item_phy_b->data->GetTransform(&item_building->data.transform);
@@ -178,15 +194,53 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_win = item_win->next;
 	}
 
-	for (int i = 0; i <= hammer.count(); i++) {
-		PhysBody3D* bodyA;
-		PhysBody3D* bodyB;
-		hinge_phys.at(i, bodyA);
-		hammer.at(i, bodyB);
+	while (item_hinge && item_phy_hin)
+	{
+		item_phy_hin->data->GetTransform(&item_hinge->data.transform);
 
-		/*App->physics->AddConstraintHinge(*bodyA, *bodyB, vec3(0, 0, 0), (0, 0, 0), (1, 0, 1), (1, 0, 1), true);*/
+
+		item_hinge->data.color.Set(0.61, 0.83, 0.67, 1);
+
+		item_hinge->data.Render();
+		item_phy_hin = item_phy_hin->next;
+		item_hinge = item_hinge->next;
 	}
-	
+
+	while (item_hammer && item_phy_ham)
+	{
+		item_phy_ham->data->GetTransform(&item_hammer->data.transform);
+
+
+		item_hammer->data.color.Set(0.61, 0.83, 0.67, 1);
+
+		item_hammer->data.Render();
+		item_phy_ham = item_phy_ham->next;
+		item_hammer = item_hammer->next;
+	}
+	while (item_right && item_phy_right)
+	{
+		item_phy_right->data->GetTransform(&item_right->data.transform);
+
+
+		item_right->data.color.Set(0.99, 0.72, 0.38, 1);
+
+		item_right->data.Render();
+		item_phy_right = item_phy_right->next;
+		item_right = item_right->next;
+	}
+
+	while (item_left && item_phy_left)
+	{
+		item_phy_left->data->GetTransform(&item_left->data.transform);
+
+
+		item_left->data.color.Set(0.61, 0.83, 0.67, 1);
+
+		item_left->data.Render();
+		item_phy_left = item_phy_left->next;
+		item_left = item_left->next;
+	}
+
 	finish_time = 95000 - App->scene_intro->game_timer.Read();
 	minutes = finish_time / 60000;
 
@@ -223,6 +277,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			ResetGame();
 		}
 
+		p2List_item<PhysBody3D*>* item_right = right_triggers_phys.getFirst();
+
+		if (body2 == item_right->data && App->player->vehicle->right_light_turned)
+		{
+			App->player->vehicle->score += 1000;
+		}
+
 		p2List_item<PhysBody3D*>* item_phy_b = buildings_phys.getFirst();
 		while (item_phy_b)
 		{
@@ -237,21 +298,70 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	
 }
 
-void ModuleSceneIntro::CreatePendul(int x, int z, int width, int heigh)
+void ModuleSceneIntro::CreateLeftTriggers(int x, int z)
 {
-	Cube axis_door(2,2,2);
-	Cube door(width, 50, heigh);
+	Cube left(30, 1, 1);
+	left.SetPos(x,0,z);
+	left_triggers.add(left);
 
-	axis_door.SetPos(x,50,z);
-	door.SetPos(x,0,z);
+	left_triggers_phys.add(App->physics->AddBody(left, 100000.00F));
+
+	left.Render();
+}
+
+void ModuleSceneIntro::CreateRightTriggers(int x, int z)
+{
+	Cube right(30, 1, 1);
+	right.SetPos(x, 0, z);
+	right_triggers.add(right);
+
+	right_triggers_phys.add(App->physics->AddBody(right, 100000.00F));
+
+	right.Render();
+}
+
+void ModuleSceneIntro::CreatePendul(int x, int z, int r, int s, int width, int heigh)
+{
+	Cube axis_door_one(40,2,2);
+	Cube door_one(width, 50, heigh);
+
+	Cube axis_door_two(40, 2, 2);
+	Cube door_two(width, 50, heigh);
 
 
-	hinge_phys.add(App->physics->AddBody(axis_door, 10000.0F));
-	hammer.add(App->physics->AddBody(door,100.0f));
+	axis_door_one.SetPos(x,50,z);
+	door_one.SetPos(x,0,z);
 
-	axis_door.Render();
-	door.Render();
+	axis_door_two.SetPos(r, 50, s);
+	door_two.SetPos(r, 0, s);
 
+	
+	hammer_list.add(door_one);
+	hinge_list.add(axis_door_one);
+	hammer_list.add(door_two);
+	hinge_list.add(axis_door_two);
+
+	hinge_phys.add(App->physics->AddBody(axis_door_one, 1000.0F));
+	hammer.add(App->physics->AddBody(door_one,10.0f));
+
+	hinge_phys.add(App->physics->AddBody(axis_door_two, 1000.0F));
+	hammer.add(App->physics->AddBody(door_two, 10.0f));
+
+	for (int i = 0; i <= hammer.count(); i++) {
+		PhysBody3D* bodyA;
+		PhysBody3D* bodyB;
+		hinge_phys.at(i, bodyA);
+		hammer.at(i, bodyB);
+		
+		App->physics->AddConstraintHinge(*bodyA, *bodyB, vec3(0, -22, 0), (0, 0, 0), (1, -22, 1), (1, -22, 1), true);
+	
+	
+	}
+
+	axis_door_one.Render();
+	door_one.Render();
+	axis_door_two.Render();
+	door_two.Render();
 }
 
 void ModuleSceneIntro::CreateWin()

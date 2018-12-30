@@ -110,7 +110,7 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(70, 0, -150);
-
+	/*vehicle->SetPos(5, 0 , 105);*/
 	vehicle->collision_listeners.add(App->scene_intro);
 
 	vec3 pos = vehicle->GetPos();
@@ -166,8 +166,8 @@ update_status ModulePlayer::Update(float dt)
 	vec3 pos = vehicle->GetPos();
 	vec3 forwardvec = vehicle->GetForwardVector();
 	
-	App->camera->Position.Set(pos.x-forwardvec.x, 100 + pos.y- forwardvec.y,pos.z- forwardvec.z - 20);
-	App->camera->LookAt({ pos.x, pos.y, pos.z});
+	/*App->camera->Position.Set(pos.x-forwardvec.x, 100 + pos.y- forwardvec.y,pos.z- forwardvec.z - 20);
+	App->camera->LookAt({ pos.x, pos.y, pos.z});*/
 
 
 	char title[180];

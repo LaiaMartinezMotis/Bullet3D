@@ -23,7 +23,10 @@ public:
 
 	void CreateLimits();
 
-	void CreatePendul(int x, int z, int with, int heigh);
+
+	void CreateLeftTriggers(int x, int z);
+	void CreateRightTriggers(int x, int z);
+	void CreatePendul(int x, int z, int r, int s, int with, int heigh);
 	void CreateWin();
 	void CreateRewards(int x, int z);
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
@@ -36,13 +39,22 @@ public:
 	p2List<Cube> buildings;
 	p2List<PhysBody3D*> buildings_phys;
 
+	p2List<Cube> left_triggers;
+	p2List<PhysBody3D*> left_triggers_phys;
+
+	p2List<Cube> right_triggers;
+	p2List<PhysBody3D*> right_triggers_phys;
+
 	p2List<Sphere> rewards;
 	p2List<PhysBody3D*> rewards_phys;
 
 	p2List<Cube> wall;
 	p2List<PhysBody3D*> wall_phys;
 
+
+	p2List<Cube> hammer_list;
 	p2List<PhysBody3D*> hammer;
+	p2List<Cube> hinge_list;
 	p2List<PhysBody3D*> hinge_phys;
 
 	p2List<Cube> win;
