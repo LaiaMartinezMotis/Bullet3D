@@ -116,7 +116,7 @@ bool ModulePlayer::Start()
 	vec3 pos = vehicle->GetPos();
 	vec3 forwardvec = vehicle->GetForwardVector();
 
-	App->camera->Position.Set(pos.x-forwardvec.x, 100 + pos.y- forwardvec.y,pos.z- forwardvec.z - 20);
+	App->camera->Position.Set(pos.x-forwardvec.x, 200 + pos.y- forwardvec.y,pos.z- forwardvec.z - 20);
 	
 	return true;
 }

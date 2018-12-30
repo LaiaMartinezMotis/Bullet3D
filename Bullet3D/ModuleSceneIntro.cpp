@@ -30,12 +30,29 @@ bool ModuleSceneIntro::Start()
 	//Borders
 	CreateWall(96, -150, 10, 70);
 	CreateWall(56, -150, 10, 70);
+	CreateWall(-157, -115, 70, 10);
+	CreateWall(-115, 165, 10, 70);
+	CreateWall(157, 55, 60, 10);
 
 	//Interior Walls
 	CreateWall(5, -85, 30, 10);
 	CreateWall(5, -45, 30, 10);
-	CreateWall(77, -45, 30, 10);
+	CreateWall(5, 25, 30, 10);
+	CreateWall(5, -15, 30, 10);
+	CreateWall(75, -15, 30, 10);
+	CreateWall(-65, -45, 30, 10);
+	CreateWall(-65, -115, 30, 10);
+	CreateWall(75, -45, 30, 10);
+	CreateWall(-65, 95, 30, 10);
+	CreateWall(75, 95, 30, 10);
+	CreateWall(5, 125, 30, 10);
+
 	CreateWall(96, -65, 10, 30);
+	CreateWall(96, 0, 10, 30);
+	CreateWall(55, 75, 10, 30);
+	CreateWall(-115, 5, 10, 30);
+	CreateWall(-45, 75, 10, 30);
+	
 
 	return ret;
 }
