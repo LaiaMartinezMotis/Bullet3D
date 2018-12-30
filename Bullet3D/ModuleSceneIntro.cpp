@@ -247,7 +247,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 
 
-	finish_time = 95000 - App->scene_intro->game_timer.Read();
+	finish_time = 75000 - App->scene_intro->game_timer.Read();
 	minutes = finish_time / 60000;
 
 	if (finish_time < 0)
