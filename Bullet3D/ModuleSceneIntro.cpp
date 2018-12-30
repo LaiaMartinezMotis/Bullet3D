@@ -36,7 +36,24 @@ bool ModuleSceneIntro::Start()
 	CreateMap(-100, -100, 300, 300, 40, 40, 30);
 	CreateLimits();
 
-	/*CreateRightTriggers(80,-135);*/
+	//Create Blocks
+	CreateTriggers(80, -115, 14, 7);
+	CreateTriggers(10, -55, 4, 9);
+	CreateTriggers(-130, -25, 25, 4);
+	CreateTriggers(-180, 25, 25, 4);
+
+	CreateTriggers(-80, 45, 15, 4);
+	CreateTriggers(-80, 35, 15, 4);
+
+	CreateTriggers(68, 45, 12, 4);
+	CreateTriggers(68, 35, 12, 4);
+
+	CreateTriggers(180, 125, 18, 4);
+	CreateTriggers(180, 115, 18, 4);
+
+	CreateTriggers(40, 135, 14, 19);
+	CreateTriggers(40, 190, 14, 19);
+
 	//Borders
 	CreateWall(96, -150, 10, 70);
 	CreateWall(56, -150, 10, 70);
@@ -148,8 +165,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Cube>* item_right = right_triggers.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_right = right_triggers_phys.getFirst();
 
-	p2List_item<Cube>* item_left = left_triggers.getFirst();
-	p2List_item<PhysBody3D*>* item_phy_left = left_triggers_phys.getFirst();
+	
 
 
 	while (item_building && item_phy_b)
@@ -229,17 +245,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_right = item_right->next;
 	}
 
-	while (item_left && item_phy_left)
-	{
-		item_phy_left->data->GetTransform(&item_left->data.transform);
 
-
-		item_left->data.color.Set(0.61, 0.83, 0.67, 1);
-
-		item_left->data.Render();
-		item_phy_left = item_phy_left->next;
-		item_left = item_left->next;
-	}
 
 	finish_time = 95000 - App->scene_intro->game_timer.Read();
 	minutes = finish_time / 60000;
@@ -297,51 +303,26 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			item_phy_b = item_phy_b->next;
 		}
 
-		/*p2List_item<PhysBody3D*>* item_right = right_triggers_phys.getFirst();
+		p2List_item<PhysBody3D*>* item_right = right_triggers_phys.getFirst();
 		while (item_right)
 		{
-			if (body2 == item_right->data && App->player->vehicle->right_light_turned)
+			if (body2 == item_right->data)
 			{
-
-				App->player->vehicle->score += 1000;
-			}
-			else
-			{
-				App->player->vehicle->score -= 1000;
+				App->player->vehicle->score -= 100;
 			};
 			item_right = item_right->next;
 		}
-		p2List_item<PhysBody3D*>* item_left = left_triggers_phys.getFirst();
-		while (item_left)
-		{
-			if (body2 == item_left->data && App->player->vehicle->left_light_turned)
-			{
-				App->player->vehicle->score += 1000;
-			}
-			else {
-				App->player->vehicle->score -= 1000;
-			};
-			item_left = item_left->next;
-		}*/
+
 	}
 }
 	
 
 
-void ModuleSceneIntro::CreateLeftTriggers(int x, int z)
+
+
+void ModuleSceneIntro::CreateTriggers(int x, int z, int width, int heigh)
 {
-	Cube left(30, 1, 1);
-	left.SetPos(x,0,z);
-	left_triggers.add(left);
-
-	left_triggers_phys.add(App->physics->AddBody(left, 100000.00F));
-
-	left.Render();
-}
-
-void ModuleSceneIntro::CreateRightTriggers(int x, int z)
-{
-	Cube right(30, 1.2, 1);
+	Cube right(width, 4, heigh);
 	right.SetPos(x, 0, z);
 	right_triggers.add(right);
 

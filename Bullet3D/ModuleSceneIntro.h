@@ -24,8 +24,7 @@ public:
 	void CreateLimits();
 
 
-	void CreateLeftTriggers(int x, int z);
-	void CreateRightTriggers(int x, int z);
+	void CreateTriggers(int x, int z, int width, int heigh);
 	void CreatePendul(int x, int z, int r, int s, int with, int height);
 	void CreateWin();
 	void CreateRewards(int x, int z);
@@ -38,9 +37,6 @@ public:
 
 	p2List<Cube> buildings;
 	p2List<PhysBody3D*> buildings_phys;
-
-	p2List<Cube> left_triggers;
-	p2List<PhysBody3D*> left_triggers_phys;
 
 	p2List<Cube> right_triggers;
 	p2List<PhysBody3D*> right_triggers_phys;
