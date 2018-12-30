@@ -249,6 +249,16 @@ update_status ModuleSceneIntro::Update(float dt)
 		App->audio->PlayFx(lose_fx);
 		ResetGame();
 	}
+
+	if (App->player->vehicle->GetKmh() > 100)
+	{
+		App->player->vehicle->score--;
+	}
+
+	if (App->player->vehicle->score < 0)
+	{
+		App->player->vehicle->score = 0;
+	}
 	
 	return UPDATE_CONTINUE;
 }
