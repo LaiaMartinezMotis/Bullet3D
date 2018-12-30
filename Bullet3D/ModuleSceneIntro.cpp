@@ -29,6 +29,7 @@ bool ModuleSceneIntro::Start()
 	//Load Fx
 	lose_fx = App->audio->LoadFx("Drift/lose.wav");
 	win_fx = App->audio->LoadFx("Drift/win1.wav");
+	coin_fx = App->audio->LoadFx("Drift/coin.wav");
 	
 
 	//Create City
@@ -45,7 +46,7 @@ bool ModuleSceneIntro::Start()
 	//Interior Walls
 	CreateWall(5, -85, 30, 10);
 	CreateWall(5, -45, 30, 10);
-	CreateWall(5, 25, 30, 10);
+	/*CreateWall(5, 25, 30, 10);*/
 	CreateWall(5, -15, 30, 10);
 	CreateWall(75, -15, 30, 10);
 	CreateWall(-65, -45, 30, 10);
@@ -53,14 +54,13 @@ bool ModuleSceneIntro::Start()
 	CreateWall(75, -45, 30, 10);
 	CreateWall(-65, 95, 30, 10);
 	CreateWall(75, 95, 30, 10);
-	CreateWall(5, 125, 30, 10);
+	/*CreateWall(5, 125, 30, 10);*/
 
 	CreateWall(96, -65, 10, 30);
 	CreateWall(96, 0, 10, 30);
 	CreateWall(55, 75, 10, 30);
 	CreateWall(-115, 5, 10, 30);
 	CreateWall(-45, 75, 10, 30);
-	
 
 	//Create Rewards
 	CreateRewards(-65, -105);
@@ -69,12 +69,14 @@ bool ModuleSceneIntro::Start()
 	CreateRewards(-105, 5);
 	CreateRewards(5, 5);
 	CreateRewards(-65, 105);
+
 	//CreateRewards(-90, 165);
 	CreateRewards(5, 165);
 	CreateRewards(75, 165);
 	CreateRewards(75, 75);
 
-
+	//Create Pendul
+	CreatePendul(5,125,30,10);
 	//Win condition
 	CreateWin();
 
@@ -175,6 +177,15 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_phy_win = item_phy_win->next;
 		item_win = item_win->next;
 	}
+
+	for (int i = 0; i <= hammer.count(); i++) {
+		PhysBody3D* bodyA;
+		PhysBody3D* bodyB;
+		hinge_phys.at(i, bodyA);
+		hammer.at(i, bodyB);
+
+		/*App->physics->AddConstraintHinge(*bodyA, *bodyB, vec3(0, 0, 0), (0, 0, 0), (1, 0, 1), (1, 0, 1), true);*/
+	}
 	
 	finish_time = 95000 - App->scene_intro->game_timer.Read();
 	minutes = finish_time / 60000;
@@ -198,6 +209,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		{
 			if (body2 == item_phy_rew->data)
 			{
+				App->audio->PlayFx(coin_fx);
 				App->player->vehicle->score += 100;
 			}
 			item_phy_rew = item_phy_rew->next;
@@ -205,14 +217,41 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 		p2List_item<PhysBody3D*>* item_win = win_phys.getFirst();
 
-			if (body2 == item_win->data)
+		if (body2 == item_win->data)
+		{
+			App->audio->PlayFx(win_fx);
+			ResetGame();
+		}
+
+		p2List_item<PhysBody3D*>* item_phy_b = buildings_phys.getFirst();
+		while (item_phy_b)
+		{
+			if (body2 == item_phy_b->data)
 			{
-				App->audio->PlayFx(win_fx);
-				ResetGame();
+				App->player->vehicle->score -= 100;
 			}
+			item_phy_b = item_phy_b->next;
+		}
 	
 	}
 	
+}
+
+void ModuleSceneIntro::CreatePendul(int x, int z, int width, int heigh)
+{
+	Cube axis_door(2,2,2);
+	Cube door(width, 50, heigh);
+
+	axis_door.SetPos(x,50,z);
+	door.SetPos(x,0,z);
+
+
+	hinge_phys.add(App->physics->AddBody(axis_door, 10000.0F));
+	hammer.add(App->physics->AddBody(door,100.0f));
+
+	axis_door.Render();
+	door.Render();
+
 }
 
 void ModuleSceneIntro::CreateWin()

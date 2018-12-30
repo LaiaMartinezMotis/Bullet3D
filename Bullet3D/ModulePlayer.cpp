@@ -35,7 +35,7 @@ bool ModulePlayer::Start()
 	car.right_light_offset.Set(-1.55, 2.25, -5);
 	
 	car.mass = 500.0f;
-	car.suspensionStiffness = 15.88f; //8
+	car.suspensionStiffness = 8.88f; //8
 	car.suspensionCompression = 0.83f; // 5
 	car.suspensionDamping = 0.88f;
 	car.maxSuspensionTravelCm = 1000.0f;

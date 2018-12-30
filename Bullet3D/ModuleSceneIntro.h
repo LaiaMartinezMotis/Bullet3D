@@ -23,7 +23,7 @@ public:
 
 	void CreateLimits();
 
-
+	void CreatePendul(int x, int z, int with, int heigh);
 	void CreateWin();
 	void CreateRewards(int x, int z);
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
@@ -41,6 +41,9 @@ public:
 
 	p2List<Cube> wall;
 	p2List<PhysBody3D*> wall_phys;
+
+	p2List<PhysBody3D*> hammer;
+	p2List<PhysBody3D*> hinge_phys;
 
 	p2List<Cube> win;
 	p2List<PhysBody3D*> win_phys;
@@ -70,6 +73,7 @@ public:
 	uint reward;
 	uint lose_fx;
 	uint win_fx;
+	uint coin_fx;
 
 	Timer game_timer;
 	int minutes;
