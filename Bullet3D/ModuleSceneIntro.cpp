@@ -24,7 +24,7 @@ bool ModuleSceneIntro::Start()
 
 
 	//Play BSO
-	bso = App->audio->PlayMusic("Drift/Tokyo_Drift.ogg");
+	bso = App->audio->PlayMusic("Drift/Deja_Vu.ogg");
 	
 
 	//Create City
@@ -65,10 +65,14 @@ bool ModuleSceneIntro::Start()
 	CreateRewards(-105, 5);
 	CreateRewards(5, 5);
 	CreateRewards(-65, 105);
-	CreateRewards(-90, 165);
+	//CreateRewards(-90, 165);
 	CreateRewards(5, 165);
 	CreateRewards(75, 165);
 	CreateRewards(75, 75);
+
+
+	//Win condition
+	CreateWin();
 
 	game_timer.Start();
 
@@ -119,6 +123,11 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Cube>* item_grou = ground.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_grou = ground_phys.getFirst();
 
+
+
+	p2List_item<Cube>* item_win = win.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_win = win_phys.getFirst();
+
 	while (item_building && item_phy_b)
 	{
 		item_phy_b->data->GetTransform(&item_building->data.transform);
@@ -148,6 +157,18 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_phy_rew = item_phy_rew->next;
 		item_rew = item_rew->next;
 	}
+
+	while (item_win && item_phy_win)
+	{
+		item_phy_win->data->GetTransform(&item_win->data.transform);
+
+
+		item_win->data.color.Set(0.62, 0.50, 0.37, 1);
+
+		item_win->data.Render();
+		item_phy_win = item_phy_win->next;
+		item_win = item_win->next;
+	}
 	
 	finish_time = 90000 - App->scene_intro->game_timer.Read();
 	minutes = finish_time / 60000;
@@ -171,6 +192,38 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	}
 	
 }
+
+void ModuleSceneIntro::CreateWin()
+{
+	Cube end_left(5, 30, 5);
+	Cube end_right(5, 30, 5);
+	Cube end_up(5, 5, 32);
+	Cube end_ground(5, 1, 28);
+
+	win.add(end_ground);
+	win.add(end_left);
+	win.add(end_right);
+	win.add(end_up);
+
+
+	end_left.SetPos(-90, 0, 178);
+	end_right.SetPos(-90, 0, 148);
+	end_up.SetPos(-90, 30, 163);
+	end_ground.SetPos(-90, 0, 163);
+
+	win_phys.add(App->physics->AddBody(end_ground, 10000.0F));
+	win_phys.add(App->physics->AddBody(end_left, 10000.0F));
+	win_phys.add(App->physics->AddBody(end_right, 10000.0F));
+	win_phys.add(App->physics->AddBody(end_up, 10000.0F));
+
+
+	end_ground.Render();
+	end_left.Render();
+	end_right.Render();
+	end_up.Render();
+
+}
+
 
 void ModuleSceneIntro::CreateLimits()
 {

@@ -23,6 +23,8 @@ public:
 
 	void CreateLimits();
 
+
+	void CreateWin();
 	void CreateRewards(int x, int z);
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
 	void CreateWall(int x, int z, int width, int height);
@@ -39,6 +41,9 @@ public:
 
 	p2List<Cube> wall;
 	p2List<PhysBody3D*> wall_phys;
+
+	p2List<Cube> win;
+	p2List<PhysBody3D*> win_phys;
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
