@@ -3,6 +3,13 @@
 
 Driving School Simulator created by Laia Martinez Motis and Alex Moralers Garcia, two students of CITM Terrassa (Barcelona, Spain).
 
+## Gameplay Description
+
+The player has to complete the whole path getting all the points and avoiding the obstacles. The player wins points hitting the balls. The player loses points crashing the walls and exceeding the maximum velocity (100 km/h). He/She has to end the route within 75 seconds.
+
+## Win/Lose condition
+The player wins when he/she complete the route. He/She loses when it can't complete the path in the expected time.
+
 ## Installation
 > __Unzip the release folder and execute the .exe file__
 
@@ -14,9 +21,7 @@ Driving School Simulator created by Laia Martinez Motis and Alex Moralers Garcia
 
 * __[Right Light]:__ A
 * __[Left Light]:__ D
-
-* __[Right Light]:__ A
-* __[Left Light]:__ D
+* __[Reset Level]:__ R
 
 * __[Volume Up]:__ Keypad + (numeric keypad)
 * __[Volume Down]:__ Keypad - (numeric keypad)
@@ -24,6 +29,7 @@ Driving School Simulator created by Laia Martinez Motis and Alex Moralers Garcia
 ## Team
 * GitHub: [LaiaMartinezMotis](https://github.com/LaiaMartinezMotis)
 * GitHub: [AlexMG99](https://github.com/AlexMG99)
+* GitHub Project Page: [Web](https://github.com/LaiaMartinezMotis/Bullet3D)
 
 ## License
 
