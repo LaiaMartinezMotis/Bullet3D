@@ -59,9 +59,15 @@ bool ModuleSceneIntro::Start()
 	CreateMap(-100, -100, 300, 300, 40, 40, 30);
 	CreateLimits();
 
-	//Create Walls
-	CreateWall(-88, -76, 10, 28);
-	CreateWall(-70, -70, 28, 10);
+	//Borders
+	CreateWall(96, -150, 10, 70);
+	CreateWall(56, -150, 10, 70);
+
+	//Interior Walls
+	CreateWall(5, -85, 30, 10);
+	CreateWall(5, -45, 30, 10);
+	CreateWall(77, -45, 30, 10);
+	CreateWall(96, -65, 10, 30);
 
 	return ret;
 }
@@ -195,22 +201,22 @@ void ModuleSceneIntro::CreateMap(int x, int z, int width, int height, int b_widt
 			int b_z = col * (street + b_height);
 
 			Cube c(b_width, 50, b_height);
-			Cube box(15, 3.75, 5);
+			//Cube box(15, 3.75, 5);
 			//Sphere r (2.0);
 			Cube block(10, 1.75, 4);
 			
 			buildings.add(c);
-			cars.add(box);
+			//cars.add(box);
 			//rewards.add(r);
 			wall.add(block);
 
 			c.SetPos(x + b_x, 0, z + b_z);
-			box.SetPos(x + b_x, 0, z + b_z);
+			//box.SetPos(x + b_x, 0, z + b_z);
 			//r.SetPos(20 + x + b_x, 0, 30 + z + b_z);
 			block.SetPos(x + b_x, 0, 50 + z + b_z);
 
 			buildings_phys.add(App->physics->AddBody(c, 100000.00F));
-			cars_phys.add(App->physics->AddBody(box, 100000.00F));
+			//cars_phys.add(App->physics->AddBody(box, 100000.00F));
 			//rewards_phys.add(App->physics->AddBody(r, 100.00F));
 			wall_phys.add(App->physics->AddBody(block, 100.00F));
 		}
