@@ -36,7 +36,7 @@ bool ModuleSceneIntro::Start()
 	CreateMap(-100, -100, 300, 300, 40, 40, 30);
 	CreateLimits();
 
-	CreateRightTriggers(80,-135);
+	/*CreateRightTriggers(80,-135);*/
 	//Borders
 	CreateWall(96, -150, 10, 70);
 	CreateWall(56, -150, 10, 70);
