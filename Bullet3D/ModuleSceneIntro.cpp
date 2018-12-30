@@ -54,6 +54,19 @@ bool ModuleSceneIntro::Start()
 	CreateWall(-45, 75, 10, 30);
 	
 
+	//Create Rewards
+	CreateRewards(-65, -105);
+	CreateRewards(-65, -35);
+	CreateRewards(-150, -65);
+	CreateRewards(-105, 5);
+	CreateRewards(5, 5);
+	CreateRewards(-65, 105);
+	CreateRewards(-90, 165);
+	CreateRewards(5, 165);
+	CreateRewards(75, 165);
+	CreateRewards(75, 75);
+
+
 	return ret;
 }
 
@@ -86,16 +99,10 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane p(0, 1, 0, 0);
-	p.color = White;
-	p.axis = true;
 	
 	p2List_item<Cube>* item_building = buildings.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_b = buildings_phys.getFirst();
 	
-	p2List_item<Cube>* item_car = cars.getFirst();
-	p2List_item<PhysBody3D*>* item_phy_car = cars_phys.getFirst();
-
 	p2List_item<Sphere>* item_rew = rewards.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_rew = rewards_phys.getFirst();
 
@@ -113,37 +120,26 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_building = item_building->next;
 	}
 
-	while (item_car && item_phy_car)
-	{
-		item_phy_car->data->GetTransform(&item_car->data.transform);
-		item_car->data.color.Set(0.9, 0.31, 0.39, 1);
-
-		item_car->data.Render();
-		item_phy_car = item_phy_car->next;
-		item_car = item_car->next;
-	}
-
 	while (item_grou && item_phy_grou)
 	{
 		item_phy_grou->data->GetTransform(&item_grou->data.transform);
-		item_grou->data.color.Set(0.27, 0.92, 0.74, 0.05);
+		item_grou->data.color.Set(0.39, 0.46, 0.52, 1);
 
 		item_grou->data.Render();
 		item_phy_grou = item_phy_grou->next;
 		item_grou = item_grou->next;
 	}
 
-	
-	//while (item_rew && item_phy_rew)
-	//{
-	//	item_phy_rew->data->GetTransform(&item_rew->data.transform);
-	//	/*item_rew->data.color.Set(0.99, 0.87, 0.54, 1);*/
+	while (item_rew && item_phy_rew)
+	{
+		item_phy_rew->data->GetTransform(&item_rew->data.transform);
+		item_rew->data.color.Set(0.57, 0.43, 0.85, 1);
 
-	//	item_rew->data.Render();
-	//	item_phy_rew = item_phy_rew->next;
-	//	item_rew = item_rew->next;
-	//}
-	p.Render();
+		item_rew->data.Render();
+		item_phy_rew = item_phy_rew->next;
+		item_rew = item_rew->next;
+	}
+	
 	
 	return UPDATE_CONTINUE;
 }
@@ -207,27 +203,29 @@ void ModuleSceneIntro::CreateMap(int x, int z, int width, int height, int b_widt
 
 			Cube c(b_width, 50, b_height);
 			//Cube box(15, 3.75, 5);
-			//Sphere r (2.0);
-			Cube block(10, 1.75, 4);
-			
+
 			buildings.add(c);
 			//cars.add(box);
-			//rewards.add(r);
-			wall.add(block);
-
+		
 			c.SetPos(x + b_x, 0, z + b_z);
 			//box.SetPos(x + b_x, 0, z + b_z);
-			//r.SetPos(20 + x + b_x, 0, 30 + z + b_z);
-			block.SetPos(x + b_x, 0, 50 + z + b_z);
-
+	
 			buildings_phys.add(App->physics->AddBody(c, 100000.00F));
 			//cars_phys.add(App->physics->AddBody(box, 100000.00F));
-			//rewards_phys.add(App->physics->AddBody(r, 100.00F));
-			wall_phys.add(App->physics->AddBody(block, 100.00F));
+			
 		}
 	}
 }
+void ModuleSceneIntro::CreateRewards(int x, int z)
+{
+	Sphere r(2.0);
+	r.SetPos(x, 0, z);
 
+
+	rewards.add(r);
+	rewards_phys.add(App->physics->AddBody(r, 100.0F));
+	r.Render();
+}
 void ModuleSceneIntro::CreateWall(int x, int z, int width, int height)
 {
 	Cube c(width, 50, height);

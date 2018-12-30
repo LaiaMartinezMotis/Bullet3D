@@ -23,6 +23,7 @@ public:
 
 	void CreateLimits();
 
+	void CreateRewards(int x, int z);
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
 	void CreateWall(int x, int z, int width, int height);
 	void CarLights();
@@ -32,8 +33,7 @@ public:
 	p2List<Cube> buildings;
 	p2List<PhysBody3D*> buildings_phys;
 
-	p2List<Cube> cars;
-	p2List<PhysBody3D*> cars_phys;
+
 
 	p2List<Sphere> rewards;
 	p2List<PhysBody3D*> rewards_phys;
