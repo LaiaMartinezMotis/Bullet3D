@@ -36,7 +36,7 @@ bool ModulePlayer::Start()
 	
 	car.mass = 500.0f;
 	car.suspensionStiffness = 8.88f; //8
-	car.suspensionCompression = 0.83f; // 5
+	car.suspensionCompression = 5.83f; // 5
 	car.suspensionDamping = 0.88f;
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 50.5;
@@ -166,8 +166,8 @@ update_status ModulePlayer::Update(float dt)
 	vec3 pos = vehicle->GetPos();
 	vec3 forwardvec = vehicle->GetForwardVector();
 	
-	/*App->camera->Position.Set(pos.x-forwardvec.x, 100 + pos.y- forwardvec.y,pos.z- forwardvec.z - 20);
-	App->camera->LookAt({ pos.x, pos.y, pos.z});*/
+	App->camera->Position.Set(pos.x-forwardvec.x, 100 + pos.y- forwardvec.y,pos.z- forwardvec.z - 20);
+	App->camera->LookAt({ pos.x, pos.y, pos.z});
 
 
 	char title[180];

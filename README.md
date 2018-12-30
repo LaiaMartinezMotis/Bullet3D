@@ -12,6 +12,15 @@ Driving School Simulator created by Laia Martinez Motis and Alex Moralers Garcia
 * __[Move Straight]:__ Up arrow
 * __[Move Backwards]:__ Down arrow
 
+* __[Right Light]:__ A
+* __[Left Light]:__ D
+
+* __[Right Light]:__ A
+* __[Left Light]:__ D
+
+* __[Volume Up]:__ Keypad + (numeric keypad)
+* __[Volume Down]:__ Keypad - (numeric keypad)
+
 ## Team
 * GitHub: [LaiaMartinezMotis](https://github.com/LaiaMartinezMotis)
 * GitHub: [AlexMG99](https://github.com/AlexMG99)

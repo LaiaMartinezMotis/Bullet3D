@@ -257,7 +257,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	if (body1 == App->player->vehicle)
 	{
-		LOG("owoo");
+		LOG("owo");
 		p2List_item<PhysBody3D*>* item_phy_rew = rewards_phys.getFirst();
 		while (item_phy_rew)
 		{
@@ -277,13 +277,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			ResetGame();
 		}
 
-		p2List_item<PhysBody3D*>* item_right = right_triggers_phys.getFirst();
-
-		if (body2 == item_right->data && App->player->vehicle->right_light_turned)
-		{
-			App->player->vehicle->score += 1000;
-		}
-
 		p2List_item<PhysBody3D*>* item_phy_b = buildings_phys.getFirst();
 		while (item_phy_b)
 		{
@@ -293,10 +286,37 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			}
 			item_phy_b = item_phy_b->next;
 		}
-	
+
+		/*p2List_item<PhysBody3D*>* item_right = right_triggers_phys.getFirst();
+		while (item_right)
+		{
+			if (body2 == item_right->data && App->player->vehicle->right_light_turned)
+			{
+
+				App->player->vehicle->score += 1000;
+			}
+			else
+			{
+				App->player->vehicle->score -= 1000;
+			};
+			item_right = item_right->next;
+		}
+		p2List_item<PhysBody3D*>* item_left = left_triggers_phys.getFirst();
+		while (item_left)
+		{
+			if (body2 == item_left->data && App->player->vehicle->left_light_turned)
+			{
+				App->player->vehicle->score += 1000;
+			}
+			else {
+				App->player->vehicle->score -= 1000;
+			};
+			item_left = item_left->next;
+		}*/
 	}
-	
 }
+	
+
 
 void ModuleSceneIntro::CreateLeftTriggers(int x, int z)
 {
@@ -311,7 +331,7 @@ void ModuleSceneIntro::CreateLeftTriggers(int x, int z)
 
 void ModuleSceneIntro::CreateRightTriggers(int x, int z)
 {
-	Cube right(30, 1, 1);
+	Cube right(30, 1.2, 1);
 	right.SetPos(x, 0, z);
 	right_triggers.add(right);
 
@@ -320,13 +340,13 @@ void ModuleSceneIntro::CreateRightTriggers(int x, int z)
 	right.Render();
 }
 
-void ModuleSceneIntro::CreatePendul(int x, int z, int r, int s, int width, int heigh)
+void ModuleSceneIntro::CreatePendul(int x, int z, int r, int s, int width, int height)
 {
 	Cube axis_door_one(40,2,2);
-	Cube door_one(width, 50, heigh);
+	Cube door_one(width, 50, height);
 
 	Cube axis_door_two(40, 2, 2);
-	Cube door_two(width, 50, heigh);
+	Cube door_two(width, 50, height);
 
 
 	axis_door_one.SetPos(x,50,z);
@@ -397,8 +417,8 @@ void ModuleSceneIntro::CreateWin()
 void ModuleSceneIntro::CreateLimits()
 {
 	Cube limit_one(400, 10, 10);
-	Cube limit_two(10, 10, 370);
-	Cube limit_three(10, 10, 370);
+	Cube limit_two(10, 10, 390);
+	Cube limit_three(10, 10, 390);
 	Cube limit_four(400, 10, 10);
 	Cube plane(400, 0, 400);
 

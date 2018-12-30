@@ -26,7 +26,7 @@ public:
 
 	void CreateLeftTriggers(int x, int z);
 	void CreateRightTriggers(int x, int z);
-	void CreatePendul(int x, int z, int r, int s, int with, int heigh);
+	void CreatePendul(int x, int z, int r, int s, int with, int height);
 	void CreateWin();
 	void CreateRewards(int x, int z);
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
