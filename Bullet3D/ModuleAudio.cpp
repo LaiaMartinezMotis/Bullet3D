@@ -68,7 +68,7 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
-bool ModuleAudio::Update()
+update_status ModuleAudio::Update(float dt)
 {
 	Mix_VolumeMusic(volume);
 
@@ -81,7 +81,7 @@ bool ModuleAudio::Update()
 		volume--;
 	}
 
-	return true;
+	return UPDATE_CONTINUE;
 }
 
 // Play a music file
