@@ -45,6 +45,9 @@ public:
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
 
+	p2List<Cube> ground;
+	p2List<PhysBody3D*> ground_phys;
+
 	PhysBody3D* pb_wheel;
 	Cylinder p_wheel;
 

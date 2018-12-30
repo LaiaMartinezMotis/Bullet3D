@@ -21,39 +21,7 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	//for (int i = 0; i < MAX_BUILDINGS; i++) {
-	//	buildings[i] = Cube((50, 70, 50);
-	//}
-	/*Cube c(50, 70, 50);
-	c.color.Set(0.50, 0.0,0.6,1.0);
-	c.SetPos(50, 0, 0);*/
-	/*Cube limit_one(400,10,10);
-	Cube limit_two(10, 10, 370);
-	Cube limit_three(10, 10, 370);
-	Cube limit_four(400, 10, 10);
-
-	Cube block_one(50,70,20);
-
-	block_one.SetPos(50, 0, 0);
-	limit_one.SetPos(0,0,195);
-	limit_two.SetPos(-195, 0, 0);
-	limit_three.SetPos(195, 0, 0);
-	limit_four.SetPos(0, 0, -195);
 	
-
-	
-	App->physics->AddBody(block_one, 10000.0F)->Push (0.0, 0.0, 0.0);
-	App->physics->AddBody(limit_one, 100000.0F)->Push(0.0, 0.0, 0.0);
-	App->physics->AddBody(limit_two, 100000.0F)->Push(0.0, 0.0, 0.0);
-	App->physics->AddBody(limit_three, 100000.0F)->Push(0.0, 0.0, 0.0);
-	App->physics->AddBody(limit_four, 100000.0F)->Push(0.0, 0.0, 0.0);
-
-
-	limit_one.Render();
-	limit_two.Render();
-	limit_three.Render();
-	limit_four.Render();
-	block_one.Render();*/
 
 	//Create City
 	CreateMap(-100, -100, 300, 300, 40, 40, 30);
@@ -114,6 +82,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Sphere>* item_rew = rewards.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_rew = rewards_phys.getFirst();
 
+
+	p2List_item<Cube>* item_grou = ground.getFirst();
+	p2List_item<PhysBody3D*>* item_phy_grou = ground_phys.getFirst();
+
 	while (item_building && item_phy_b)
 	{
 		item_phy_b->data->GetTransform(&item_building->data.transform);
@@ -133,6 +105,17 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_phy_car = item_phy_car->next;
 		item_car = item_car->next;
 	}
+
+	while (item_grou && item_phy_grou)
+	{
+		item_phy_grou->data->GetTransform(&item_grou->data.transform);
+		item_grou->data.color.Set(0.27, 0.92, 0.74, 0.05);
+
+		item_grou->data.Render();
+		item_phy_grou = item_phy_grou->next;
+		item_grou = item_grou->next;
+	}
+
 	
 	//while (item_rew && item_phy_rew)
 	//{
@@ -172,21 +155,26 @@ void ModuleSceneIntro::CreateLimits()
 	Cube limit_two(10, 10, 370);
 	Cube limit_three(10, 10, 370);
 	Cube limit_four(400, 10, 10);
+	Cube plane(400, 0, 400);
+
+	ground.add(limit_one);
+	ground.add(limit_two);
+	ground.add(limit_three);
+	ground.add(limit_four);
+	ground.add(plane);
 
 	limit_one.SetPos(0, 0, 195);
 	limit_two.SetPos(-195, 0, 0);
 	limit_three.SetPos(195, 0, 0);
 	limit_four.SetPos(0, 0, -195);
+	plane.SetPos(0, -10, 0);
 
-	App->physics->AddBody(limit_one, 100000.0F)->Push(0.0, 0.0, 0.0);
-	App->physics->AddBody(limit_two, 100000.0F)->Push(0.0, 0.0, 0.0);
-	App->physics->AddBody(limit_three, 100000.0F)->Push(0.0, 0.0, 0.0);
-	App->physics->AddBody(limit_four, 100000.0F)->Push(0.0, 0.0, 0.0);
 
-	limit_one.Render();
-	limit_two.Render();
-	limit_three.Render();
-	limit_four.Render();
+	ground_phys.add(App->physics->AddBody(limit_one, 100000.00F));
+	ground_phys.add(App->physics->AddBody(limit_two, 100000.00F));
+	ground_phys.add(App->physics->AddBody(limit_three, 100000.00F));
+	ground_phys.add(App->physics->AddBody(limit_four, 100000.00F));
+	ground_phys.add(App->physics->AddBody(plane, 100000.00F));
 }
 
 void ModuleSceneIntro::CreateMap(int x, int z, int width, int height, int b_width, int b_height, int street)
