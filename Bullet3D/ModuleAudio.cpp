@@ -68,6 +68,22 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
+bool ModuleAudio::Update()
+{
+	Mix_VolumeMusic(volume);
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT)
+	{
+		volume++;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_REPEAT)
+	{
+		volume--;
+	}
+
+	return true;
+}
+
 // Play a music file
 bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 {
