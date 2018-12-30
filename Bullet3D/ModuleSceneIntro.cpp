@@ -24,8 +24,11 @@ bool ModuleSceneIntro::Start()
 
 
 	//Play BSO
-
 	App->audio->PlayMusic("Drift/Deja_Vu.ogg");
+
+	//Load Fx
+	lose_fx = App->audio->LoadFx("Drift/lose.wav");
+	win_fx = App->audio->LoadFx("Drift/win1.wav");
 	
 
 	//Create City
@@ -96,6 +99,10 @@ update_status ModuleSceneIntro::PreUpdate(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
 		ResetGame();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		App->player->vehicle->SetPos(80, 0, 100);
 	}
 	CarLights();
 	return UPDATE_CONTINUE;
@@ -174,6 +181,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	if (finish_time < 0)
 	{
+		App->audio->PlayFx(lose_fx);
 		ResetGame();
 	}
 	
@@ -194,6 +202,15 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			}
 			item_phy_rew = item_phy_rew->next;
 		}
+
+		p2List_item<PhysBody3D*>* item_win = win_phys.getFirst();
+
+			if (body2 == item_win->data)
+			{
+				App->audio->PlayFx(win_fx);
+				ResetGame();
+			}
+	
 	}
 	
 }
@@ -203,25 +220,24 @@ void ModuleSceneIntro::CreateWin()
 	Cube end_left(5, 30, 5);
 	Cube end_right(5, 30, 5);
 	Cube end_up(5, 5, 32);
-	Cube end_ground(5, 1, 28);
+	Cube end_wall(5, 30, 32);
 
-	win.add(end_ground);
+	win.add(end_wall);
 	win.add(end_left);
 	win.add(end_right);
 	win.add(end_up);
 
-
+	end_wall.SetPos(-95, 0, 163);
 	end_left.SetPos(-90, 0, 178);
 	end_right.SetPos(-90, 0, 148);
 	end_up.SetPos(-90, 30, 163);
-	end_ground.SetPos(-90, 0, 163);
 
-	win_phys.add(App->physics->AddBody(end_ground, 10000.0F));
+	win_phys.add(App->physics->AddBody(end_wall, 100000.0F));
 	win_phys.add(App->physics->AddBody(end_left, 10000.0F));
 	win_phys.add(App->physics->AddBody(end_right, 10000.0F));
 	win_phys.add(App->physics->AddBody(end_up, 10000.0F));
 
-	end_ground.Render();
+	end_wall.Render();
 	end_left.Render();
 	end_right.Render();
 	end_up.Render();

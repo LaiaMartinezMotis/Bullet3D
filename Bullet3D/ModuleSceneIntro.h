@@ -45,6 +45,8 @@ public:
 	p2List<Cube> win;
 	p2List<PhysBody3D*> win_phys;
 
+	PhysBody3D*	win_ground;
+
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
 
@@ -66,6 +68,8 @@ public:
 	Timer limit_time_left;
 
 	uint reward;
+	uint lose_fx;
+	uint win_fx;
 
 	Timer game_timer;
 	int minutes;
