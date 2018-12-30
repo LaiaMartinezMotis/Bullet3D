@@ -61,6 +61,8 @@ public:
 	float Score() const;
 	vec3 GetForwardVector();
 
+	void Orientation(float rot_angle);
+
 public:
 	float score;
 	bool left_light_turned = false;

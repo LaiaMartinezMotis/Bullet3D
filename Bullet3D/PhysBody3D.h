@@ -19,6 +19,8 @@ public:
 	void GetTransform(float* matrix) const;
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
+	void SetLinearVelocity(float x, float y, float z);
+	void DeleteBody();
 	vec3 GetPos();
 
 private:

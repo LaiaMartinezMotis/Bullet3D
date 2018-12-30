@@ -27,20 +27,18 @@ public:
 	void CreateMap(int x, int z, int width, int height, int row, int column, int street);
 	void CreateWall(int x, int z, int width, int height);
 	void CarLights();
+	void ResetGame();
 
 public:
 
 	p2List<Cube> buildings;
 	p2List<PhysBody3D*> buildings_phys;
 
-
-
 	p2List<Sphere> rewards;
 	p2List<PhysBody3D*> rewards_phys;
 
 	p2List<Cube> wall;
 	p2List<PhysBody3D*> wall_phys;
-
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
@@ -62,7 +60,11 @@ public:
 	Timer limit_time_right;
 	Timer limit_time_left;
 
-
 	uint bso;
 	uint reward;
+
+	Timer game_timer;
+	int minutes;
+	int finish_time = 0;
+
 };

@@ -47,6 +47,17 @@ void PhysBody3D::SetPos(float x, float y, float z)
 	body->setWorldTransform(t);
 }
 
+void PhysBody3D::SetLinearVelocity(float x, float y, float z)
+{
+	btVector3 v(x, y, z);
+	body->setLinearVelocity(v);
+}
+
+void PhysBody3D::DeleteBody()
+{
+	delete body;
+}
+
 vec3 PhysBody3D::GetPos()
 {
 	btTransform t = body->getWorldTransform();

@@ -125,7 +125,7 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
-
+	
 	return true;
 }
 
@@ -172,7 +172,7 @@ update_status ModulePlayer::Update(float dt)
 
 	char title[180];
 
-	sprintf_s(title, "Speed: %.1f Km/h | Score: 000 | Timer: 000", vehicle->GetKmh(), vehicle->Score());
+	sprintf_s(title, "Speed: %.1f Km/h | Score: %.1f points | Timer: %i minutes %i seconds", vehicle->GetKmh(), vehicle->Score(),App->scene_intro->minutes, App->scene_intro->finish_time/1000 - App->scene_intro->minutes*60);
 	App->window->SetTitle(title);
 	
 

@@ -4,6 +4,7 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
+#include "ModulePlayer.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -69,6 +70,7 @@ bool ModuleSceneIntro::Start()
 	CreateRewards(75, 165);
 	CreateRewards(75, 75);
 
+	game_timer.Start();
 
 	return ret;
 }
@@ -85,6 +87,10 @@ update_status ModuleSceneIntro::PreUpdate(float dt)
 	{
 		App->player->vehicle->right_light_turned = !App->player->vehicle->right_light_turned;
 		limit_time_right.Start();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		ResetGame();
 	}
 	CarLights();
 	return UPDATE_CONTINUE;
@@ -143,13 +149,14 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_rew = item_rew->next;
 	}
 	
+	finish_time = 90000 - App->scene_intro->game_timer.Read();
+	minutes = finish_time / 60000;
 	
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	LOG("OwO!");
 	if (body1 == App->player->vehicle)
 	{
 		p2List_item<PhysBody3D*>* item_phy_rew = rewards_phys.getFirst();
@@ -157,7 +164,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		{
 			if (body2 == item_phy_rew->data)
 			{
-				LOG("Hey!");
+				LOG("Hwey");
 			}
 			item_phy_rew = item_phy_rew->next;
 		}
@@ -290,5 +297,15 @@ void ModuleSceneIntro::CarLights()
 		App->player->vehicle->right_light_turned = false;
 	}
 	
+}
+
+void ModuleSceneIntro::ResetGame()
+{
+	App->player->vehicle->score = 0;
+	game_timer.Start();
+	App->player->vehicle->SetPos(70, 0, -150);
+	App->player->vehicle->Orientation(0);
+	App->player->vehicle->SetLinearVelocity(0, 0, 0);
+
 }
 

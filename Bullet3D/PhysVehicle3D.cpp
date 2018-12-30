@@ -137,3 +137,27 @@ vec3 PhysVehicle3D::GetForwardVector()
 	return vec3();
 }
 
+void PhysVehicle3D::Orientation(float rot_angle)
+{
+
+	float matrix[16];
+	memset(matrix, 0.0f, sizeof(matrix));
+
+	// Keep position
+	vec3 p = GetPos();
+	matrix[12] = p.x;
+	matrix[13] = p.y;
+	matrix[14] = p.z;
+	matrix[15] = 1;
+
+	// Rotate the body by angle_r
+	matrix[0] = cos(rot_angle);
+	matrix[2] = -sin(rot_angle);
+	matrix[5] = 1;
+	matrix[8] = sin(rot_angle);
+	matrix[10] = cos(rot_angle);
+
+	SetTransform(matrix);
+
+}
+
