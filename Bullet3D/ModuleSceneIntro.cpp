@@ -105,10 +105,10 @@ update_status ModuleSceneIntro::PreUpdate(float dt)
 	{
 		ResetGame();
 	}
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		App->player->vehicle->SetPos(80, 0, 100);
-	}
+	}*/
 	CarLights();
 	return UPDATE_CONTINUE;
 }
@@ -374,8 +374,7 @@ void ModuleSceneIntro::CreatePendul(int x, int z, int r, int s, int width, int h
 		hammer.at(i, bodyB);
 		
 		App->physics->AddConstraintHinge(*bodyA, *bodyB, vec3(0, -22, 0), (0, 0, 0), (1, -22, 1), (1, -22, 1), true);
-	
-	
+
 	}
 
 	axis_door_one.Render();
