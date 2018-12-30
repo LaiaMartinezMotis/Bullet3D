@@ -124,8 +124,6 @@ update_status ModuleSceneIntro::Update(float dt)
 	p2List_item<Cube>* item_grou = ground.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_grou = ground_phys.getFirst();
 
-
-
 	p2List_item<Cube>* item_win = win.getFirst();
 	p2List_item<PhysBody3D*>* item_phy_win = win_phys.getFirst();
 
@@ -171,8 +169,13 @@ update_status ModuleSceneIntro::Update(float dt)
 		item_win = item_win->next;
 	}
 	
-	finish_time = 90000 - App->scene_intro->game_timer.Read();
+	finish_time = 95000 - App->scene_intro->game_timer.Read();
 	minutes = finish_time / 60000;
+
+	if (finish_time < 0)
+	{
+		ResetGame();
+	}
 	
 	return UPDATE_CONTINUE;
 }
@@ -183,11 +186,11 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{
 		LOG("owoo");
 		p2List_item<PhysBody3D*>* item_phy_rew = rewards_phys.getFirst();
-		if (item_phy_rew)
+		while (item_phy_rew)
 		{
 			if (body2 == item_phy_rew->data)
 			{
-				LOG("Hey");
+				App->player->vehicle->score += 100;
 			}
 			item_phy_rew = item_phy_rew->next;
 		}
@@ -217,7 +220,6 @@ void ModuleSceneIntro::CreateWin()
 	win_phys.add(App->physics->AddBody(end_left, 10000.0F));
 	win_phys.add(App->physics->AddBody(end_right, 10000.0F));
 	win_phys.add(App->physics->AddBody(end_up, 10000.0F));
-
 
 	end_ground.Render();
 	end_left.Render();
@@ -361,6 +363,7 @@ void ModuleSceneIntro::ResetGame()
 	App->player->vehicle->SetPos(70, 0, -150);
 	App->player->vehicle->Orientation(0);
 	App->player->vehicle->SetLinearVelocity(0, 0, 0);
+	App->audio->PlayMusic("Drift/Deja_Vu.ogg");
 
 }
 
